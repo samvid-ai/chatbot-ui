@@ -1,3 +1,5 @@
+//for every kind of sidebar shows the content  like for files lets to add a new file and retireve the previosu ones
+
 import { Tables } from "@/supabase/types"
 import { ContentType, DataListType } from "@/types"
 import { FC, useState } from "react"

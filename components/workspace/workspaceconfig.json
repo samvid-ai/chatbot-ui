@@ -1,0 +1,12 @@
+{
+    "instructions": "You are a calm and friendy bot",
+    "defaulyChatSettings":{
+        "model": "gpt-3.5-turbo",
+        "prompt": "Hello! How can I assist you today?",
+        "temperature": 0.7,
+        "contextLength": 2048,
+        "includeProfileContext": true,
+        "includeWorkspaceInstructions": true,
+        "embeddingsProvider": "openai"
+    }
+}

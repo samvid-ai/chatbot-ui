@@ -1,12 +1,15 @@
+//history section
+//possible answer to getting data which arun talked
+
 import { ChatbotUIContext } from "@/context/context"
-import { updateAssistant } from "@/db/assistants"
+// import { updateAssistant } from "@/db/assistants"
 import { updateChat } from "@/db/chats"
 import { updateCollection } from "@/db/collections"
 import { updateFile } from "@/db/files"
-import { updateModel } from "@/db/models"
-import { updatePreset } from "@/db/presets"
+// import { updateModel } from "@/db/models"
+// import { updatePreset } from "@/db/presets"
 import { updatePrompt } from "@/db/prompts"
-import { updateTool } from "@/db/tools"
+// import { updateTool } from "@/db/tools"
 import { cn } from "@/lib/utils"
 import { Tables } from "@/supabase/types"
 import { ContentType, DataItemType, DataListType } from "@/types"
@@ -18,9 +21,9 @@ import { CollectionItem } from "./items/collections/collection-item"
 import { FileItem } from "./items/files/file-item"
 import { Folder } from "./items/folders/folder-item"
 import { ModelItem } from "./items/models/model-item"
-import { PresetItem } from "./items/presets/preset-item"
+// import { PresetItem } from "./items/presets/preset-item"
 import { PromptItem } from "./items/prompts/prompt-item"
-import { ToolItem } from "./items/tools/tool-item"
+// import { ToolItem } from "./items/tools/tool-item"
 
 interface SidebarDataListProps {
   contentType: ContentType
@@ -35,13 +38,13 @@ export const SidebarDataList: FC<SidebarDataListProps> = ({
 }) => {
   const {
     setChats,
-    setPresets,
+    // setPresets,
     setPrompts,
     setFiles,
     setCollections,
-    setAssistants,
-    setTools,
-    setModels
+    // setAssistants,
+    // setTools,
+    // setModels
   } = useContext(ChatbotUIContext)
 
   const divRef = useRef<HTMLDivElement>(null)
@@ -57,8 +60,8 @@ export const SidebarDataList: FC<SidebarDataListProps> = ({
       case "chats":
         return <ChatItem key={item.id} chat={item as Tables<"chats">} />
 
-      case "presets":
-        return <PresetItem key={item.id} preset={item as Tables<"presets">} />
+      // case "presets":
+      //   return <PresetItem key={item.id} preset={item as Tables<"presets">} />
 
       case "prompts":
         return <PromptItem key={item.id} prompt={item as Tables<"prompts">} />
@@ -74,19 +77,19 @@ export const SidebarDataList: FC<SidebarDataListProps> = ({
           />
         )
 
-      case "assistants":
-        return (
-          <AssistantItem
-            key={item.id}
-            assistant={item as Tables<"assistants">}
-          />
-        )
+      // case "assistants":
+      //   return (
+      //     <AssistantItem
+      //       key={item.id}
+      //       assistant={item as Tables<"assistants">}
+      //     />
+      //   )
 
-      case "tools":
-        return <ToolItem key={item.id} tool={item as Tables<"tools">} />
+      // case "tools":
+      //   return <ToolItem key={item.id} tool={item as Tables<"tools">} />
 
-      case "models":
-        return <ModelItem key={item.id} model={item as Tables<"models">} />
+      // case "models":
+      //   return <ModelItem key={item.id} model={item as Tables<"models">} />
 
       default:
         return null
@@ -134,24 +137,24 @@ export const SidebarDataList: FC<SidebarDataListProps> = ({
 
   const updateFunctions = {
     chats: updateChat,
-    presets: updatePreset,
+    // presets: updatePreset,
     prompts: updatePrompt,
     files: updateFile,
     collections: updateCollection,
-    assistants: updateAssistant,
-    tools: updateTool,
-    models: updateModel
+    // assistants: updateAssistant,
+    // tools: updateTool,
+    // models: updateModel
   }
 
   const stateUpdateFunctions = {
     chats: setChats,
-    presets: setPresets,
+    // presets: setPresets,
     prompts: setPrompts,
     files: setFiles,
     collections: setCollections,
-    assistants: setAssistants,
-    tools: setTools,
-    models: setModels
+    // assistants: setAssistants,
+    // tools: setTools,
+    // models: setModels
   }
 
   const updateFolder = async (itemId: string, folderId: string | null) => {

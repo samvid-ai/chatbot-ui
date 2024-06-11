@@ -27,6 +27,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import { TextareaAutosize } from "../ui/textarea-autosize"
 import { WithTooltip } from "../ui/with-tooltip"
 import { DeleteWorkspace } from "./delete-workspace"
+import config from './workspaceconfig.json';
 
 interface WorkspaceSettingsProps {}
 
@@ -51,20 +52,24 @@ export const WorkspaceSettings: FC<WorkspaceSettingsProps> = ({}) => {
   const [description, setDescription] = useState(
     selectedWorkspace?.description || ""
   )
-  const [instructions, setInstructions] = useState(
-    selectedWorkspace?.instructions || ""
-  )
+  // const [instructions, setInstructions] = useState(
+  //   selectedWorkspace?.instructions || ""
+  // )
 
-  const [defaultChatSettings, setDefaultChatSettings] = useState({
-    model: selectedWorkspace?.default_model,
-    prompt: selectedWorkspace?.default_prompt,
-    temperature: selectedWorkspace?.default_temperature,
-    contextLength: selectedWorkspace?.default_context_length,
-    includeProfileContext: selectedWorkspace?.include_profile_context,
-    includeWorkspaceInstructions:
-      selectedWorkspace?.include_workspace_instructions,
-    embeddingsProvider: selectedWorkspace?.embeddings_provider
-  })
+   const instructions = config.instructions;
+
+  // const [defaultChatSettings, setDefaultChatSettings] = useState({
+  //   model: selectedWorkspace?.default_model,
+  //   prompt: selectedWorkspace?.default_prompt,
+  //   temperature: selectedWorkspace?.default_temperature,
+  //   contextLength: selectedWorkspace?.default_context_length,
+  //   includeProfileContext: selectedWorkspace?.include_profile_context,
+  //   includeWorkspaceInstructions:
+  //     selectedWorkspace?.include_workspace_instructions,
+  //   embeddingsProvider: selectedWorkspace?.embeddings_provider
+  // })
+
+  const defaultChatSettings = config.defaulyChatSettings
 
   useEffect(() => {
     const workspaceImage =
@@ -248,7 +253,7 @@ export const WorkspaceSettings: FC<WorkspaceSettingsProps> = ({}) => {
                 <TextareaAutosize
                   placeholder="Instructions... (optional)"
                   value={instructions}
-                  onValueChange={setInstructions}
+                  onValueChange={() => {}}
                   minRows={5}
                   maxRows={10}
                   maxLength={1500}
@@ -268,7 +273,7 @@ export const WorkspaceSettings: FC<WorkspaceSettingsProps> = ({}) => {
 
               <ChatSettingsForm
                 chatSettings={defaultChatSettings as any}
-                onChangeChatSettings={setDefaultChatSettings}
+                onChangeChatSettings={() => {}}
               />
             </TabsContent>
           </Tabs>

@@ -1,3 +1,5 @@
+//poora display idhar se aa rha hai
+
 import { ChatbotUIContext } from "@/context/context"
 import { Tables } from "@/supabase/types"
 import { ContentType } from "@/types"
@@ -17,27 +19,27 @@ export const Sidebar: FC<SidebarProps> = ({ contentType, showSidebar }) => {
   const {
     folders,
     chats,
-    presets,
+    // presets,
     prompts,
     files,
     collections,
-    assistants,
-    tools,
-    models
+    // assistants,
+    // tools,
+    // models
   } = useContext(ChatbotUIContext)
 
   const chatFolders = folders.filter(folder => folder.type === "chats")
-  const presetFolders = folders.filter(folder => folder.type === "presets")
+  // const presetFolders = folders.filter(folder => folder.type === "presets")
   const promptFolders = folders.filter(folder => folder.type === "prompts")
   const filesFolders = folders.filter(folder => folder.type === "files")
   const collectionFolders = folders.filter(
     folder => folder.type === "collections"
   )
-  const assistantFolders = folders.filter(
-    folder => folder.type === "assistants"
-  )
-  const toolFolders = folders.filter(folder => folder.type === "tools")
-  const modelFolders = folders.filter(folder => folder.type === "models")
+  // const assistantFolders = folders.filter(
+  //   folder => folder.type === "assistants"
+  // )
+  // const toolFolders = folders.filter(folder => folder.type === "tools")
+  // const modelFolders = folders.filter(folder => folder.type === "models")
 
   const renderSidebarContent = (
     contentType: ContentType,
@@ -72,8 +74,8 @@ export const Sidebar: FC<SidebarProps> = ({ contentType, showSidebar }) => {
             case "chats":
               return renderSidebarContent("chats", chats, chatFolders)
 
-            case "presets":
-              return renderSidebarContent("presets", presets, presetFolders)
+            // case "presets":
+            //   return renderSidebarContent("presets", presets, presetFolders)
 
             case "prompts":
               return renderSidebarContent("prompts", prompts, promptFolders)
@@ -88,18 +90,18 @@ export const Sidebar: FC<SidebarProps> = ({ contentType, showSidebar }) => {
                 collectionFolders
               )
 
-            case "assistants":
-              return renderSidebarContent(
-                "assistants",
-                assistants,
-                assistantFolders
-              )
+            // case "assistants":
+            //   return renderSidebarContent(
+            //     "assistants",
+            //     assistants,
+            //     assistantFolders
+            //   )
 
-            case "tools":
-              return renderSidebarContent("tools", tools, toolFolders)
+            // case "tools":
+            //   return renderSidebarContent("tools", tools, toolFolders)
 
-            case "models":
-              return renderSidebarContent("models", models, modelFolders)
+            // case "models":
+            //   return renderSidebarContent("models", models, modelFolders)
 
             default:
               return null

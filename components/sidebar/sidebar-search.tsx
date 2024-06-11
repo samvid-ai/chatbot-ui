@@ -1,3 +1,6 @@
+//apprantly gives a search bar in the sidebar have to check
+// search ka kam hota simple
+
 import { ContentType } from "@/types"
 import { FC } from "react"
 import { Input } from "../ui/input"
