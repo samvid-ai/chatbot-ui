@@ -3,23 +3,25 @@ import useHotkey from "@/lib/hooks/use-hotkey"
 import { LLM_LIST } from "@/lib/models/llm/llm-list"
 import { cn } from "@/lib/utils"
 import {
-  IconBolt,
+  // IconBolt,
   IconCirclePlus,
   IconPlayerStopFilled,
-  IconSend
+  IconSend,
+  IconWorldWww
 } from "@tabler/icons-react"
-import Image from "next/image"
+// import Image from "next/image"
 import { FC, useContext, useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { toast } from "sonner"
 import { Input } from "../ui/input"
 import { TextareaAutosize } from "../ui/textarea-autosize"
 import { ChatCommandInput } from "./chat-command-input"
-import { ChatFilesDisplay } from "./chat-files-display"
+// import { ChatFilesDisplay } from "./chat-files-display"
 import { useChatHandler } from "./chat-hooks/use-chat-handler"
 import { useChatHistoryHandler } from "./chat-hooks/use-chat-history"
 import { usePromptAndCommand } from "./chat-hooks/use-prompt-and-command"
 import { useSelectFileHandler } from "./chat-hooks/use-select-file-handler"
+
 
 interface ChatInputProps {}
 
@@ -164,8 +166,8 @@ export const ChatInput: FC<ChatInputProps> = ({}) => {
 
   return (
     <>
-      <div className="flex flex-col flex-wrap justify-center gap-2">
-        <ChatFilesDisplay />
+      {/* <div className="flex flex-col flex-wrap justify-center gap-2">
+       <ChatFilesDisplay />
 
         {selectedTools &&
           selectedTools.map((tool, index) => (
@@ -209,7 +211,7 @@ export const ChatInput: FC<ChatInputProps> = ({}) => {
             </div>
           </div>
         )}
-      </div>
+      </div> */}
 
       <div className="border-input relative mt-3 flex min-h-[60px] w-full items-center justify-center rounded-xl border-2">
         <div className="absolute bottom-[76px] left-0 max-h-[300px] w-full overflow-auto rounded-xl dark:border-none">
