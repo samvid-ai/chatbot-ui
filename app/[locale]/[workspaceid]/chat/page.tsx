@@ -31,8 +31,8 @@ export default function ChatPage() {
           <div className="top-50% left-50% -translate-x-50% -translate-y-50% absolute mb-20">
             <Brand theme={theme === "dark" ? "dark" : "light"} />
           </div>
-
-          <div className="absolute left-2 top-2">
+          <div className="absolute left-2 top-2"></div>
+          <div className="absolute left-2 top-10">
             <QuickSettings />
           </div>
 

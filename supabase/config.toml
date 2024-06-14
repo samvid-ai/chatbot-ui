@@ -24,7 +24,7 @@ shadow_port = 54320
 major_version = 15
 
 [db.pooler]
-enabled = false
+enabled = true
 port = 54329
 pool_mode = "transaction"
 default_pool_size = 20
@@ -54,7 +54,7 @@ file_size_limit = "50MiB"
 [auth]
 # The base URL of your website. Used as an allow-list for redirects and for constructing URLs used
 # in emails.
-site_url = "http://localhost:3000"
+site_url = "http://localhost:3000/login"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
 additional_redirect_urls = ["https://localhost:3000"]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
@@ -98,19 +98,19 @@ auth_token = "env(SUPABASE_AUTH_SMS_TWILIO_AUTH_TOKEN)"
 # Use an external OAuth provider. The full list of providers are: `apple`, `azure`, `bitbucket`,
 # `discord`, `facebook`, `github`, `gitlab`, `google`, `keycloak`, `linkedin`, `notion`, `twitch`,
 # `twitter`, `slack`, `spotify`, `workos`, `zoom`.
-[auth.external.apple]
-enabled = false
-client_id = ""
+[auth.external.google]
+enabled = true
+client_id = "185038871486-ej0g8bembuq97ud6dcib9ner9dedlt0b.apps.googleusercontent.com"
 # DO NOT commit your OAuth provider secret to git. Use environment variable substitution instead:
-secret = "env(SUPABASE_AUTH_EXTERNAL_APPLE_SECRET)"
+secret = "env(GOOGLE_CLIENT_SECRET)"
 # Overrides the default auth redirectUrl.
-redirect_uri = ""
+redirect_uri = "http://localhost:3000/login"
 # Overrides the default auth provider URL. Used to support self-hosted gitlab, single-tenant Azure,
 # or any other third-party OIDC providers.
 url = ""
 
 [analytics]
-enabled = false
+enabled = true
 port = 54327
 vector_port = 54328
 # Configure one of the supported backends: `postgres`, `bigquery`

@@ -1,3 +1,4 @@
+//this is schema file
 import { Tables } from "@/supabase/types"
 import {
   ChatFile,

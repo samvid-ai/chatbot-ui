@@ -62,6 +62,9 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const [displayName, setDisplayName] = useState(profile?.display_name || "")
+  const [organization, setOrganization] = useState(profile?.organization || "")
+  const [role, setRole] = useState(profile?.role || "")
+
   const [username, setUsername] = useState(profile?.username || "")
   const [usernameAvailable, setUsernameAvailable] = useState(true)
   const [loadingUsername, setLoadingUsername] = useState(false)
@@ -139,6 +142,8 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
     const updatedProfile = await updateProfile(profile.id, {
       ...profile,
       display_name: displayName,
+      organization: organization,
+      role: role,
       username,
       profile_context: profileInstructions,
       image_url: profileImageUrl,
@@ -336,7 +341,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
           <Tabs defaultValue="profile">
             <TabsList className="mt-4 grid w-full grid-cols-2">
               <TabsTrigger value="profile">Profile</TabsTrigger>
-              <TabsTrigger value="keys">API Keys</TabsTrigger>
+              <TabsTrigger value="keys">API Keys (Read Only)</TabsTrigger>
             </TabsList>
 
             <TabsContent className="mt-4 space-y-4" value="profile">
@@ -397,6 +402,28 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                   width={50}
                   onSrcChange={setProfileImageSrc}
                   onImageChange={setProfileImageFile}
+                />
+              </div>
+
+              <div className="space-y-1">
+                <Label>Organization</Label>
+
+                <Input
+                  placeholder="Organization..."
+                  value={organization}
+                  onChange={e => setOrganization(e.target.value)}
+                  maxLength={PROFILE_DISPLAY_NAME_MAX}
+                />
+              </div>
+
+              <div className="space-y-1">
+                <Label>Role</Label>
+
+                <Input
+                  placeholder="Role..."
+                  value={role}
+                  onChange={e => setRole(e.target.value)}
+                  maxLength={PROFILE_DISPLAY_NAME_MAX}
                 />
               </div>
 
@@ -468,7 +495,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                         placeholder="Azure OpenAI API Key"
                         type="password"
                         value={azureOpenaiAPIKey}
-                        onChange={e => setAzureOpenaiAPIKey(e.target.value)}
+                        // onChange={e => setAzureOpenaiAPIKey(e.target.value)}
                       />
                     )}
                   </>
@@ -481,7 +508,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                         placeholder="OpenAI API Key"
                         type="password"
                         value={openaiAPIKey}
-                        onChange={e => setOpenaiAPIKey(e.target.value)}
+                        // onChange={e => setOpenaiAPIKey(e.target.value)}
                       />
                     )}
                   </>
@@ -504,9 +531,9 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                             <Input
                               placeholder="https://your-endpoint.openai.azure.com"
                               value={azureOpenaiEndpoint}
-                              onChange={e =>
-                                setAzureOpenaiEndpoint(e.target.value)
-                              }
+                              // onChange={e =>
+                              //   setAzureOpenaiEndpoint(e.target.value)
+                              // }
                             />
                           </>
                         )}
@@ -526,9 +553,9 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                             <Input
                               placeholder="Azure GPT-3.5 Turbo Deployment Name"
                               value={azureOpenai35TurboID}
-                              onChange={e =>
-                                setAzureOpenai35TurboID(e.target.value)
-                              }
+                              // onChange={e =>
+                              //   setAzureOpenai35TurboID(e.target.value)
+                              // }
                             />
                           </>
                         )}
@@ -548,9 +575,9 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                             <Input
                               placeholder="Azure GPT-4.5 Turbo Deployment Name"
                               value={azureOpenai45TurboID}
-                              onChange={e =>
-                                setAzureOpenai45TurboID(e.target.value)
-                              }
+                              // onChange={e =>
+                              //   setAzureOpenai45TurboID(e.target.value)
+                              // }
                             />
                           </>
                         )}
@@ -570,9 +597,9 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                             <Input
                               placeholder="Azure GPT-4.5 Vision Deployment Name"
                               value={azureOpenai45VisionID}
-                              onChange={e =>
-                                setAzureOpenai45VisionID(e.target.value)
-                              }
+                              // onChange={e =>
+                              //   setAzureOpenai45VisionID(e.target.value)
+                              // }
                             />
                           </>
                         )}
@@ -592,9 +619,9 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                             <Input
                               placeholder="Azure Embeddings Deployment Name"
                               value={azureEmbeddingsID}
-                              onChange={e =>
-                                setAzureEmbeddingsID(e.target.value)
-                              }
+                              // onChange={e =>
+                              //   setAzureEmbeddingsID(e.target.value)
+                              // }
                             />
                           </>
                         )}
@@ -619,7 +646,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                             }
                             type="password"
                             value={openaiOrgID}
-                            onChange={e => setOpenaiOrgID(e.target.value)}
+                            // onChange={e => setOpenaiOrgID(e.target.value)}
                           />
                         </>
                       )}
@@ -638,7 +665,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                       placeholder="Anthropic API Key"
                       type="password"
                       value={anthropicAPIKey}
-                      onChange={e => setAnthropicAPIKey(e.target.value)}
+                      // onChange={e => setAnthropicAPIKey(e.target.value)}
                     />
                   </>
                 )}
@@ -654,7 +681,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                       placeholder="Google Gemini API Key"
                       type="password"
                       value={googleGeminiAPIKey}
-                      onChange={e => setGoogleGeminiAPIKey(e.target.value)}
+                      // onChange={e => setGoogleGeminiAPIKey(e.target.value)}
                     />
                   </>
                 )}
@@ -670,7 +697,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                       placeholder="Mistral API Key"
                       type="password"
                       value={mistralAPIKey}
-                      onChange={e => setMistralAPIKey(e.target.value)}
+                      // onChange={e => setMistralAPIKey(e.target.value)}
                     />
                   </>
                 )}
@@ -686,7 +713,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                       placeholder="Groq API Key"
                       type="password"
                       value={groqAPIKey}
-                      onChange={e => setGroqAPIKey(e.target.value)}
+                      // onChange={e => setGroqAPIKey(e.target.value)}
                     />
                   </>
                 )}
@@ -702,7 +729,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                       placeholder="Perplexity API Key"
                       type="password"
                       value={perplexityAPIKey}
-                      onChange={e => setPerplexityAPIKey(e.target.value)}
+                      // onChange={e => setPerplexityAPIKey(e.target.value)}
                     />
                   </>
                 )}
@@ -718,7 +745,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                       placeholder="OpenRouter API Key"
                       type="password"
                       value={openrouterAPIKey}
-                      onChange={e => setOpenrouterAPIKey(e.target.value)}
+                      // onChange={e => setOpenrouterAPIKey(e.target.value)}
                     />
                   </>
                 )}
@@ -731,7 +758,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
           <div className="flex items-center space-x-1">
             <ThemeSwitcher />
 
-            <WithTooltip
+            {/* <WithTooltip
               display={
                 <div>
                   Download Chatbot UI 1.0 data as JSON. Import coming soon!
@@ -744,7 +771,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                   onClick={exportLocalStorageAsJSON}
                 />
               }
-            />
+            /> */}
           </div>
 
           <div className="ml-auto space-x-2">

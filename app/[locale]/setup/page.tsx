@@ -66,6 +66,7 @@ export default function SetupPage() {
       const session = (await supabase.auth.getSession()).data.session
 
       if (!session) {
+        console.log("session")
         return router.push("/login")
       } else {
         const user = session.user

@@ -12,8 +12,6 @@ import { redirect } from "next/navigation"
 import GoogleProvider from "next-auth/providers/google"
 import Image from "next/image"
 import { signIn } from "next-auth/react"
-// import { SignInButton } from "@/app/[locale]/login/SignInButton"
-import SignInButton from "@/app/[locale]/login/SignInButton"
 
 export const metadata: Metadata = {
   title: "Login"
@@ -170,6 +168,7 @@ export default async function Login({
     // Credentials({
     //   name: "Welcome Back",
     //   type: "credentials",
+
     //   credentials: {
     //     email: {
     //       label: "Email",
@@ -189,7 +188,20 @@ export default async function Login({
     //     }
     //   },
     // }),
+
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+    })
   ]
+
+  const googleLogin = async () => {
+    "use server"
+    await signIn("google", {
+      callbackUrl: "/",
+      redirect: true
+    })
+  }
 
   return (
     <div className="flex w-full flex-1 flex-col justify-center gap-2 px-8 sm:max-w-md">
@@ -230,7 +242,23 @@ export default async function Login({
           Sign Up
         </SubmitButton>
 
-        <SignInButton />
+        <div className="mt-3 space-y-3">
+          <button
+            type="button"
+            className="relative inline-flex w-full items-center justify-center rounded-md border border-gray-400 bg-white px-3.5 py-2.5 font-semibold text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black focus:outline-none"
+            // onClick={signIn}
+          >
+            <span className="mr-2 inline-block"></span>
+            <Image
+              src="/google_icon.png"
+              height={30}
+              width={30}
+              alt="Google Icon"
+              className="mr-3"
+            />
+            Sign in with Google
+          </button>
+        </div>
 
         <div className="text-muted-foreground mt-1 flex justify-center text-sm">
           <span className="mr-1">Forgot your password?</span>
