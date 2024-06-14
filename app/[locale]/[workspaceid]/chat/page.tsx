@@ -6,19 +6,23 @@ import { ChatInput } from "@/components/chat/chat-input"
 import { ChatSettings } from "@/components/chat/chat-settings"
 import { ChatUI } from "@/components/chat/chat-ui"
 import { QuickSettings } from "@/components/chat/quick-settings"
+import { organisation } from "@/components/chat/organisation"
 import { Brand } from "@/components/ui/brand"
 import { ChatbotUIContext } from "@/context/context"
 import useHotkey from "@/lib/hooks/use-hotkey"
 import { useTheme } from "next-themes"
 import { useContext } from "react"
-
+import { useState } from "react"
 export default function ChatPage() {
   useHotkey("o", () => handleNewChat())
   useHotkey("l", () => {
     handleFocusChatInput()
   })
 
+  const { profile } = useContext(ChatbotUIContext)
+
   const { chatMessages } = useContext(ChatbotUIContext)
+  const [organization, setOrganization] = useState(profile?.organization || "")
 
   const { handleNewChat, handleFocusChatInput } = useChatHandler()
 
@@ -31,7 +35,11 @@ export default function ChatPage() {
           <div className="top-50% left-50% -translate-x-50% -translate-y-50% absolute mb-20">
             <Brand theme={theme === "dark" ? "dark" : "light"} />
           </div>
-          <div className="absolute left-2 top-2"></div>
+          <div className="left-130 absolute top-2">
+            <div className="banner">
+              <h1 className="text-lg font-bold">{organization}</h1>
+            </div>
+          </div>
           <div className="absolute left-2 top-10">
             <QuickSettings />
           </div>
