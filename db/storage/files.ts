@@ -19,7 +19,9 @@ export const uploadFile = async (
     )
   }
 
-  const filePath = `${payload.user_id}/${Buffer.from(payload.file_id).toString("base64")}`
+  const filePath = `${payload.user_id}/${Buffer.from(payload.file_id).toString(
+    "base64"
+  )}`
 
   const { error } = await supabase.storage
     .from("files")
@@ -54,4 +56,28 @@ export const getFileFromStorage = async (filePath: string) => {
   }
 
   return data.signedUrl
+}
+
+export const getFileContentFromStorage = async (filePath: string) => {
+  const { data, error } = await supabase.storage
+    .from("files")
+    .download(filePath)
+
+  if (error) {
+    console.error(`Error downloading file with path: ${filePath}`, error)
+    throw new Error("Error downloading file")
+  }
+
+  // Convert the downloaded data (Blob) to a string (assuming text file content)
+  const fileReader = new FileReader()
+  return new Promise<string>((resolve, reject) => {
+    fileReader.onload = () => {
+      const content = fileReader.result as string
+      resolve(content)
+    }
+    fileReader.onerror = error => {
+      reject(error)
+    }
+    fileReader.readAsText(data as Blob)
+  })
 }
