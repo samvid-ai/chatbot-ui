@@ -19,6 +19,7 @@ export const FileItem: FC<FileItemProps> = ({ file }) => {
   const [isTyping, setIsTyping] = useState(false)
   const [description, setDescription] = useState(file.description)
   const [summary, setSummary] = useState<string | null>(null) // State to hold the summary
+  //just put useState(file.summary)
   const [error, setError] = useState<string | null>(null) // State to hold the error message
 
   const getLinkAndView = async () => {
