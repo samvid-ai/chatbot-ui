@@ -672,6 +672,7 @@ export type Database = {
           name: string
           sharing: string
           size: number
+          summary: string | null
           tokens: number
           type: string
           updated_at: string | null
@@ -686,6 +687,7 @@ export type Database = {
           name: string
           sharing?: string
           size: number
+          summary?: string | null
           tokens: number
           type: string
           updated_at?: string | null
@@ -700,6 +702,7 @@ export type Database = {
           name?: string
           sharing?: string
           size?: number
+          summary?: string | null
           tokens?: number
           type?: string
           updated_at?: string | null

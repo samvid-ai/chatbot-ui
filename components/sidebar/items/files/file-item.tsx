@@ -18,7 +18,7 @@ export const FileItem: FC<FileItemProps> = ({ file }) => {
   const [name, setName] = useState(file.name)
   const [isTyping, setIsTyping] = useState(false)
   const [description, setDescription] = useState(file.description)
-  const [summary, setSummary] = useState<string | null>(null) // State to hold the summary
+  const [summary, setSummary] = useState(file.summary) // State to hold the summary
   //just put useState(file.summary)
   const [error, setError] = useState<string | null>(null) // State to hold the error message
 
@@ -75,7 +75,7 @@ export const FileItem: FC<FileItemProps> = ({ file }) => {
       isTyping={isTyping}
       contentType="files"
       icon={<FileIcon type={file.type} size={30} />}
-      updateState={{ name, description }}
+      updateState={{ name, description, summary }}
       renderInputs={() => (
         <>
           <div

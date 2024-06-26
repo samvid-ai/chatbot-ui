@@ -12,13 +12,13 @@ DECLARE
 BEGIN
   SELECT id INTO workspace1_id FROM workspaces WHERE name='Home';
 
-  -- start data for folders
-  INSERT INTO folders (user_id, workspace_id, name, description, type) VALUES
-  ('e9fc7e46-a8a5-4fd4-8ba7-af485013e6fa', workspace1_id, 'Chat Folder 1', 'This is a folder for chats', 'chats');
+  -- -- start data for folders
+  -- INSERT INTO folders (user_id, workspace_id, name, description, type) VALUES
+  -- ('e9fc7e46-a8a5-4fd4-8ba7-af485013e6fa', workspace1_id, 'Chat Folder 1', 'This is a folder for chats', 'chats');
 
-  -- start data for files
-  -- INSERT INTO files (user_id, name, description, file_path, size, tokens, type, summary) VALUES
-  -- ('e9fc7e46-a8a5-4fd4-8ba7-af485013e6fa', 'File 1', 'This is a file for testing', 'https://example.com/file1', 1000000, 250, 'pdf','no');
+  start data for files
+  INSERT INTO files (user_id, name, description, file_path, size, tokens, type, summary) VALUES
+  ('e9fc7e46-a8a5-4fd4-8ba7-af485013e6fa', 'File 1', 'This is a file for testing', 'https://example.com/file1', 1000000, 250, 'pdf','no');
 
   INSERT INTO files (user_id, name, description, file_path, size, tokens, type) VALUES
   ('e9fc7e46-a8a5-4fd4-8ba7-af485013e6fa', 'File 1', 'This is a file for testing', 'https://example.com/file1', 1000000, 250, 'pdf');
