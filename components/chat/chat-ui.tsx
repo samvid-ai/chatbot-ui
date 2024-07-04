@@ -18,6 +18,7 @@ import { ChatInput } from "./chat-input"
 import { ChatMessages } from "./chat-messages"
 import { ChatScrollButtons } from "./chat-scroll-buttons"
 import { ChatSecondaryButtons } from "./chat-secondary-buttons"
+import FileUploadSummary from "./FileUploadSummary" // Make sure the path is correct
 
 interface ChatUIProps {}
 
@@ -38,7 +39,8 @@ export const ChatUI: FC<ChatUIProps> = ({}) => {
     setChatFiles,
     setShowFilesDisplay,
     setUseRetrieval,
-    setSelectedTools
+    setSelectedTools,
+    showFilesDisplay
   } = useContext(ChatbotUIContext)
 
   const { handleNewChat, handleFocusChatInput } = useChatHandler()
@@ -186,7 +188,7 @@ export const ChatUI: FC<ChatUIProps> = ({}) => {
   }
 
   return (
-    <div className="relative flex h-full flex-col items-center">
+    <div className="relative flex h-full flex-col items-center overflow-hidden">
       <div className="absolute left-4 top-2.5 flex justify-center">
         <ChatScrollButtons
           isAtTop={isAtTop}
@@ -207,18 +209,23 @@ export const ChatUI: FC<ChatUIProps> = ({}) => {
         </div>
       </div>
 
-      <div
-        className="flex size-full flex-col overflow-auto border-b"
-        onScroll={handleScroll}
-      >
-        <div ref={messagesStartRef} />
+      <div className="flex w-full grow flex-col overflow-hidden">
+        {/* Wrap the FileUploadSummary component to constrain its width */}
+        <div className="w-full min-w-[300px] px-2 pb-3 sm:w-[600px] md:w-[700px] lg:w-[700px] xl:w-[800px]">
+          <FileUploadSummary />
+        </div>
 
-        <ChatMessages />
-
-        <div ref={messagesEndRef} />
+        <div
+          className={`flex flex-col ${showFilesDisplay ? "h-1/2" : "grow"} w-full overflow-auto`}
+          onScroll={handleScroll}
+        >
+          <div ref={messagesStartRef} />
+          <ChatMessages />
+          <div ref={messagesEndRef} />
+        </div>
       </div>
 
-      <div className="relative w-full min-w-[300px] items-end px-2 pb-3 pt-0 sm:w-[600px] sm:pb-8 sm:pt-5 md:w-[700px] lg:w-[700px] xl:w-[800px]">
+      <div className="absolute bottom-0 w-full min-w-[300px] px-2 pb-3 pt-0 sm:w-[600px] sm:pb-8 sm:pt-5 md:w-[700px] lg:w-[700px] xl:w-[800px]">
         <ChatInput />
       </div>
 

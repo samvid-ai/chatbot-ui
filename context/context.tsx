@@ -1,3 +1,4 @@
+import { createContext } from "react"
 import { Tables } from "@/supabase/types"
 import {
   ChatFile,
@@ -10,7 +11,7 @@ import {
 } from "@/types"
 import { AssistantImage } from "@/types/images/assistant-image"
 import { VALID_ENV_KEYS } from "@/types/valid-keys"
-import { Dispatch, SetStateAction, createContext } from "react"
+import { Dispatch, SetStateAction } from "react"
 
 interface ChatbotUIContext {
   // PROFILE STORE
