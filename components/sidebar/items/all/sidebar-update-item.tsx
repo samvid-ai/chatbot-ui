@@ -77,6 +77,13 @@ import {
   getToolWorkspacesByToolId,
   updateTool
 } from "@/db/tools"
+import {
+  updateProfile,
+  createprofileWorkspaces,
+  deleteprofileWorkspace,
+  getprofileWorkspacesByprofileId
+} from "@/db/profile"
+
 import { convertBlobToBase64 } from "@/lib/blob-to-b64"
 import { Tables, TablesUpdate } from "@/supabase/types"
 import { CollectionFile, ContentType, DataItemType } from "@/types"
@@ -111,7 +118,7 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
     setFiles,
     setCollections,
     setAssistants,
-    setTools,
+    setProfile,
     setModels,
     setAssistantImages
   } = useContext(ChatbotUIContext)
@@ -149,7 +156,7 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
   const [selectedAssistantCollections, setSelectedAssistantCollections] =
     useState<Tables<"collections">[]>([])
   const [selectedAssistantTools, setSelectedAssistantTools] = useState<
-    Tables<"tools">[]
+    Tables<"profiles">[]
   >([])
 
   useEffect(() => {
@@ -195,7 +202,7 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
       selectedAssistantTools,
       setSelectedAssistantTools
     },
-    tools: null,
+    profiles: null,
     models: null
   }
 
@@ -225,7 +232,7 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
       setSelectedAssistantCollections([])
       setSelectedAssistantTools([])
     },
-    tools: null,
+    profiles: null,
     models: null
   }
 
@@ -252,7 +259,7 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
       return item.workspaces
     },
     tools: async (toolId: string) => {
-      const item = await getToolWorkspacesByToolId(toolId)
+      const item = await getprofileWorkspacesByprofileId(toolId)
       return item.workspaces
     },
     models: async (modelId: string) => {
@@ -541,19 +548,24 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
 
       return updatedAssistant
     },
-    tools: async (toolId: string, updateState: TablesUpdate<"tools">) => {
-      const updatedTool = await updateTool(toolId, updateState)
+    profiles: async (
+      profileId: string,
+      updateState: TablesUpdate<"profiles">
+    ) => {
+      console.log("harey krishna")
+      console.log(profileId)
+      const updatedProfile = await updateProfile(profileId, updateState)
 
       await handleWorkspaceUpdates(
         startingWorkspaces,
         selectedWorkspaces,
-        toolId,
-        deleteToolWorkspace,
-        createToolWorkspaces as any,
-        "tool_id"
+        profile.id,
+        deleteprofileWorkspace,
+        createprofileWorkspaces as any,
+        "profile.id"
       )
 
-      return updatedTool
+      return updatedProfile
     },
     models: async (modelId: string, updateState: TablesUpdate<"models">) => {
       const updatedModel = await updateModel(modelId, updateState)
@@ -578,7 +590,7 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
     files: setFiles,
     collections: setCollections,
     assistants: setAssistants,
-    tools: setTools,
+    profiles: setProfile,
     models: setModels
   }
 
@@ -587,9 +599,13 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
       const updateFunction = updateFunctions[contentType]
       const setStateFunction = stateUpdateFunctions[contentType]
 
+      // console.log(updateFunction);
+      // console.log(setStateFunction);
+
       if (!updateFunction || !setStateFunction) return
       if (isTyping) return // Prevent update while typing
-
+      // console.log(updateState)
+      // console.log(item.id)
       const updatedItem = await updateFunction(item.id, updateState)
 
       setStateFunction((prevItems: any) =>

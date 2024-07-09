@@ -7,6 +7,7 @@ import { updateModel } from "@/db/models"
 import { updatePreset } from "@/db/presets"
 import { updatePrompt } from "@/db/prompts"
 import { updateTool } from "@/db/tools"
+import { updateProfile } from "@/db/profile"
 import { cn } from "@/lib/utils"
 import { Tables } from "@/supabase/types"
 import { ContentType, DataItemType, DataListType } from "@/types"
@@ -20,7 +21,8 @@ import { Folder } from "./items/folders/folder-item"
 import { ModelItem } from "./items/models/model-item"
 import { PresetItem } from "./items/presets/preset-item"
 import { PromptItem } from "./items/prompts/prompt-item"
-import { ToolItem } from "./items/tools/tool-item"
+import { ProfileItem } from "./items/tools/tool-item"
+import { profile } from "console"
 
 interface SidebarDataListProps {
   contentType: ContentType
@@ -40,7 +42,7 @@ export const SidebarDataList: FC<SidebarDataListProps> = ({
     setFiles,
     setCollections,
     setAssistants,
-    setTools,
+    setProfiles,
     setModels
   } = useContext(ChatbotUIContext)
 
@@ -82,8 +84,10 @@ export const SidebarDataList: FC<SidebarDataListProps> = ({
           />
         )
 
-      case "tools":
-        return <ToolItem key={item.id} tool={item as Tables<"tools">} />
+      case "profiles":
+        return (
+          <ProfileItem key={item.id} profile={item as Tables<"profiles">} />
+        )
 
       case "models":
         return <ModelItem key={item.id} model={item as Tables<"models">} />
@@ -139,7 +143,7 @@ export const SidebarDataList: FC<SidebarDataListProps> = ({
     files: updateFile,
     collections: updateCollection,
     assistants: updateAssistant,
-    tools: updateTool,
+    profiles: updateProfile,
     models: updateModel
   }
 
@@ -150,7 +154,7 @@ export const SidebarDataList: FC<SidebarDataListProps> = ({
     files: setFiles,
     collections: setCollections,
     assistants: setAssistants,
-    tools: setTools,
+    profiles: setProfiles,
     models: setModels
   }
 

@@ -5,5 +5,5 @@ export type ContentType =
   | "files"
   | "collections"
   | "assistants"
-  | "tools"
+  | "profiles"
   | "models"

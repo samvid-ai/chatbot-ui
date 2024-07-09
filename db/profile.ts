@@ -42,6 +42,43 @@ export const createProfile = async (profile: TablesInsert<"profiles">) => {
   return createdProfile
 }
 
+export const createProfiles = async (
+  profiles: TablesInsert<"profiles">[],
+  workspace_id: string
+) => {
+  const { data: createdProfiles, error } = await supabase
+    .from("profiles")
+    .insert(profiles)
+    .select("*")
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  await createprofileWorkspaces(
+    createdProfiles.map(profile => ({
+      user_id: profile.user_id,
+      profile_id: profile.id,
+      workspace_id
+    }))
+  )
+
+  return createdProfiles
+}
+
+export const createprofileWorkspaces = async (
+  items: { user_id: string; profile_id: string; workspace_id: string }[]
+) => {
+  const { data: createdToolWorkspaces, error } = await supabase
+    .from("profile_workspaces")
+    .insert(items)
+    .select("*")
+
+  if (error) throw new Error(error.message)
+
+  return createprofileWorkspaces
+}
+
 export const updateProfile = async (
   profileId: string,
   profile: TablesUpdate<"profiles">
@@ -68,4 +105,39 @@ export const deleteProfile = async (profileId: string) => {
   }
 
   return true
+}
+
+export const deleteprofileWorkspace = async (
+  profileId: string,
+  workspaceId: string
+) => {
+  const { error } = await supabase
+    .from("profile_workspaces")
+    .delete()
+    .eq("profile_id", profileId)
+    .eq("workspace_id", workspaceId)
+
+  if (error) throw new Error(error.message)
+
+  return true
+}
+
+export const getprofileWorkspacesByprofileId = async (userId: string) => {
+  const { data: profile, error } = await supabase
+    .from("profiles")
+    .select(
+      `
+      user_id, 
+      name, 
+      workspaces (*)
+    `
+    )
+    .eq("user_id", userId)
+    .single()
+
+  if (!profile) {
+    throw new Error(error.message)
+  }
+
+  return profile
 }

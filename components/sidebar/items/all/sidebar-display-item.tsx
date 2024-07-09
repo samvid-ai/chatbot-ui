@@ -62,7 +62,7 @@ export const SidebarItem: FC<SidebarItemProps> = ({
 
       return router.push(`/${selectedWorkspace.id}/chat/${createdChat.id}`)
     },
-    tools: async (item: any) => {},
+    profiles: async (item: any) => {},
     models: async (item: any) => {}
   }
 

@@ -33,7 +33,7 @@ export const Import: FC<ImportProps> = ({}) => {
     setFiles,
     setCollections,
     setAssistants,
-    setTools
+    setProfiles
   } = useContext(ChatbotUIContext)
 
   const inputRef = useRef<HTMLInputElement>(null)
@@ -48,7 +48,7 @@ export const Import: FC<ImportProps> = ({}) => {
     files: number
     collections: number
     assistants: number
-    tools: number
+    profiles: number
   }>({
     chats: 0,
     presets: 0,
@@ -56,7 +56,7 @@ export const Import: FC<ImportProps> = ({}) => {
     files: 0,
     collections: 0,
     assistants: 0,
-    tools: 0
+    profiles: 0
   })
 
   const stateUpdateFunctions = {
@@ -66,7 +66,7 @@ export const Import: FC<ImportProps> = ({}) => {
     files: setFiles,
     collections: setCollections,
     assistants: setAssistants,
-    tools: setTools
+    profiles: setProfiles
   }
 
   const handleSelectFiles = async (e: any) => {
@@ -138,7 +138,7 @@ export const Import: FC<ImportProps> = ({}) => {
       files: 0,
       collections: 0,
       assistants: 0,
-      tools: 0
+      profiles: 0
     })
     setIsOpen(false)
   }
@@ -154,7 +154,7 @@ export const Import: FC<ImportProps> = ({}) => {
       files: [],
       collections: [],
       assistants: [],
-      tools: []
+      profiles: []
     }
 
     importList.forEach(item => {
@@ -177,7 +177,7 @@ export const Import: FC<ImportProps> = ({}) => {
         saveData.assistants,
         selectedWorkspace.id
       ),
-      tools: await createTools(saveData.tools, selectedWorkspace.id)
+      profiles: await createProfiles(saveData.profiles, selectedWorkspace.id)
     }
 
     Object.keys(createdItems).forEach(key => {
@@ -198,7 +198,7 @@ export const Import: FC<ImportProps> = ({}) => {
       files: 0,
       collections: 0,
       assistants: 0,
-      tools: 0
+      profiles: 0
     })
     setIsOpen(false)
   }

@@ -15,6 +15,7 @@ import { deleteCollection } from "@/db/collections"
 import { deleteFile } from "@/db/files"
 import { deleteModel } from "@/db/models"
 import { deletePreset } from "@/db/presets"
+import { deleteProfile } from "@/db/profile"
 import { deletePrompt } from "@/db/prompts"
 import { deleteFileFromStorage } from "@/db/storage/files"
 import { deleteTool } from "@/db/tools"
@@ -38,7 +39,7 @@ export const SidebarDeleteItem: FC<SidebarDeleteItemProps> = ({
     setFiles,
     setCollections,
     setAssistants,
-    setTools,
+    setProfile,
     setModels
   } = useContext(ChatbotUIContext)
 
@@ -69,8 +70,8 @@ export const SidebarDeleteItem: FC<SidebarDeleteItemProps> = ({
         prevState.filter(chat => chat.assistant_id !== assistant.id)
       )
     },
-    tools: async (tool: Tables<"tools">) => {
-      await deleteTool(tool.id)
+    profiles: async (profile: Tables<"profiles">) => {
+      await deleteProfile(profile.id)
     },
     models: async (model: Tables<"models">) => {
       await deleteModel(model.id)
@@ -84,7 +85,7 @@ export const SidebarDeleteItem: FC<SidebarDeleteItemProps> = ({
     files: setFiles,
     collections: setCollections,
     assistants: setAssistants,
-    tools: setTools,
+    profiles: setProfile,
     models: setModels
   }
 
@@ -95,7 +96,7 @@ export const SidebarDeleteItem: FC<SidebarDeleteItemProps> = ({
     if (!deleteFunction || !setStateFunction) return
 
     await deleteFunction(item as any)
-
+    console.log("hello")
     setStateFunction((prevItems: any) =>
       prevItems.filter((prevItem: any) => prevItem.id !== item.id)
     )

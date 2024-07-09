@@ -63,6 +63,10 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
 
   const [displayName, setDisplayName] = useState(profile?.display_name || "")
   const [organization, setOrganization] = useState(profile?.organization || "")
+  const [organization_id, setorganization_id] = useState(
+    profile?.organization_id
+  )
+
   const [role, setRole] = useState(profile?.role || "")
 
   const [username, setUsername] = useState(profile?.username || "")
@@ -143,6 +147,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
       ...profile,
       display_name: displayName,
       organization: organization,
+      organization_id: organization_id,
       role: role,
       username,
       profile_context: profileInstructions,
@@ -342,6 +347,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
             <TabsList className="mt-4 grid w-full grid-cols-2">
               <TabsTrigger value="profile">Profile</TabsTrigger>
               <TabsTrigger value="keys">API Keys (Read Only)</TabsTrigger>
+              {/* <TabsTrigger value="keys">API Keys (Read Only)</TabsTrigger> */}
             </TabsList>
 
             <TabsContent className="mt-4 space-y-4" value="profile">
@@ -508,7 +514,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                         placeholder="OpenAI API Key"
                         type="password"
                         value={openaiAPIKey}
-                        // onChange={e => setOpenaiAPIKey(e.target.value)}
+                        onChange={e => setOpenaiAPIKey(e.target.value)}
                       />
                     )}
                   </>

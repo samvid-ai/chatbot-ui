@@ -23,11 +23,13 @@ import {
   uploadAssistantImage
 } from "@/db/storage/assistant-images"
 import { createTool } from "@/db/tools"
+import { createProfile } from "@/db/profile"
 import { convertBlobToBase64 } from "@/lib/blob-to-b64"
 import { Tables, TablesInsert } from "@/supabase/types"
 import { ContentType } from "@/types"
 import { FC, useContext, useRef, useState } from "react"
 import { toast } from "sonner"
+import { profile } from "console"
 
 interface SidebarCreateItemProps {
   isOpen: boolean
@@ -55,7 +57,7 @@ export const SidebarCreateItem: FC<SidebarCreateItemProps> = ({
     setCollections,
     setAssistants,
     setAssistantImages,
-    setTools,
+    setProfile,
     setModels
   } = useContext(ChatbotUIContext)
 
@@ -109,11 +111,11 @@ export const SidebarCreateItem: FC<SidebarCreateItemProps> = ({
         image: File
         files: Tables<"files">[]
         collections: Tables<"collections">[]
-        tools: Tables<"tools">[]
+        profiles: Tables<"profiles">[]
       } & Tables<"assistants">,
       workspaceId: string
     ) => {
-      const { image, files, collections, tools, ...rest } = createState
+      const { image, files, collections, profiles, ...rest } = createState
 
       const createdAssistant = await createAssistant(rest, workspaceId)
 
@@ -157,7 +159,7 @@ export const SidebarCreateItem: FC<SidebarCreateItemProps> = ({
         collection_id: collection.id
       }))
 
-      const assistantTools = tools.map(tool => ({
+      const assistantTools = profiles.map(tool => ({
         user_id: rest.user_id,
         assistant_id: createdAssistant.id,
         tool_id: tool.id
@@ -169,7 +171,7 @@ export const SidebarCreateItem: FC<SidebarCreateItemProps> = ({
 
       return updatedAssistant
     },
-    tools: createTool,
+    profiles: createProfile,
     models: createModel
   }
 
@@ -180,26 +182,47 @@ export const SidebarCreateItem: FC<SidebarCreateItemProps> = ({
     files: setFiles,
     collections: setCollections,
     assistants: setAssistants,
-    tools: setTools,
+    profiles: setProfile,
     models: setModels
   }
 
   const handleCreate = async () => {
     try {
       if (!selectedWorkspace) return
+      // console.log("selectedWorkspace");
       if (isTyping) return // Prevent creation while typing
-
       const createFunction = createFunctions[contentType]
       const setStateFunction = stateUpdateFunctions[contentType]
+      //   const setStateFunction = stateUpdateFunctions[contentType] || (() => {
+      //     throw new Error(`No state update function found for content type: ${contentType}`);
+      // console.log("setStateFunction");
+      console.log(contentType)
+      console.log(setStateFunction)
 
       if (!createFunction || !setStateFunction) return
 
       setCreating(true)
 
       const newItem = await createFunction(createState, selectedWorkspace.id)
+      console.log(newItem)
+      // console.log("hello");
+      // setStateFunction((prevItems: any) => [...prevItems, newItem])
 
-      setStateFunction((prevItems: any) => [...prevItems, newItem])
+      setStateFunction((prevItems: any) => {
+        console.log("Previous items:", prevItems)
+        console.log("Previous items type:", typeof prevItems)
+        if (Array.isArray(prevItems)) {
+          return [...prevItems, newItem]
+        } else {
+          console.warn("prevItems is not an array:", prevItems)
+          return [newItem]
+        }
+      })
 
+      // setStateFunction((prevItems: any) => Array.isArray(prevItems) ? [...prevItems, newItem] : [newItem]);
+
+      console.log("ram")
+      // console.log("hello");
       onOpenChange(false)
       setCreating(false)
     } catch (error) {

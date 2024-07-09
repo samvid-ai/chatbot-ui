@@ -8,7 +8,7 @@ interface ToolPickerProps {}
 
 export const ToolPicker: FC<ToolPickerProps> = ({}) => {
   const {
-    tools,
+    // tools,
     focusTool,
     toolCommand,
     isToolPickerOpen,
@@ -25,9 +25,9 @@ export const ToolPicker: FC<ToolPickerProps> = ({}) => {
     }
   }, [focusTool])
 
-  const filteredTools = tools.filter(tool =>
-    tool.name.toLowerCase().includes(toolCommand.toLowerCase())
-  )
+  // const filteredTools = tools.filter(tool =>
+  //   tool.name.toLowerCase().includes(toolCommand.toLowerCase())
+  // )
 
   const handleOpenChange = (isOpen: boolean) => {
     setIsToolPickerOpen(isOpen)
@@ -38,40 +38,40 @@ export const ToolPicker: FC<ToolPickerProps> = ({}) => {
     handleOpenChange(false)
   }
 
-  const getKeyDownHandler =
-    (index: number) => (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === "Backspace") {
-        e.preventDefault()
-        handleOpenChange(false)
-      } else if (e.key === "Enter") {
-        e.preventDefault()
-        callSelectTool(filteredTools[index])
-      } else if (
-        (e.key === "Tab" || e.key === "ArrowDown") &&
-        !e.shiftKey &&
-        index === filteredTools.length - 1
-      ) {
-        e.preventDefault()
-        itemsRef.current[0]?.focus()
-      } else if (e.key === "ArrowUp" && !e.shiftKey && index === 0) {
-        // go to last element if arrow up is pressed on first element
-        e.preventDefault()
-        itemsRef.current[itemsRef.current.length - 1]?.focus()
-      } else if (e.key === "ArrowUp") {
-        e.preventDefault()
-        const prevIndex =
-          index - 1 >= 0 ? index - 1 : itemsRef.current.length - 1
-        itemsRef.current[prevIndex]?.focus()
-      } else if (e.key === "ArrowDown") {
-        e.preventDefault()
-        const nextIndex = index + 1 < itemsRef.current.length ? index + 1 : 0
-        itemsRef.current[nextIndex]?.focus()
-      }
-    }
+  // const getKeyDownHandler =
+  //   (index: number) => (e: React.KeyboardEvent<HTMLDivElement>) => {
+  //     if (e.key === "Backspace") {
+  //       e.preventDefault()
+  //       handleOpenChange(false)
+  //     } else if (e.key === "Enter") {
+  //       e.preventDefault()
+  //       callSelectTool(filteredTools[index])
+  //     } else if (
+  //       (e.key === "Tab" || e.key === "ArrowDown") &&
+  //       !e.shiftKey &&
+  //       index === filteredTools.length - 1
+  //     ) {
+  //       e.preventDefault()
+  //       itemsRef.current[0]?.focus()
+  //     } else if (e.key === "ArrowUp" && !e.shiftKey && index === 0) {
+  //       // go to last element if arrow up is pressed on first element
+  //       e.preventDefault()
+  //       itemsRef.current[itemsRef.current.length - 1]?.focus()
+  //     } else if (e.key === "ArrowUp") {
+  //       e.preventDefault()
+  //       const prevIndex =
+  //         index - 1 >= 0 ? index - 1 : itemsRef.current.length - 1
+  //       itemsRef.current[prevIndex]?.focus()
+  //     } else if (e.key === "ArrowDown") {
+  //       e.preventDefault()
+  //       const nextIndex = index + 1 < itemsRef.current.length ? index + 1 : 0
+  //       itemsRef.current[nextIndex]?.focus()
+  //     }
+  //   }
 
   return (
     <>
-      {isToolPickerOpen && (
+      {/* {isToolPickerOpen && (
         <div className="bg-background flex flex-col space-y-1 rounded-xl border-2 p-2 text-sm">
           {filteredTools.length === 0 ? (
             <div className="text-md flex h-14 cursor-pointer items-center justify-center italic hover:opacity-50">
@@ -104,7 +104,7 @@ export const ToolPicker: FC<ToolPickerProps> = ({}) => {
             </>
           )}
         </div>
-      )}
+      )} */}
     </>
   )
 }

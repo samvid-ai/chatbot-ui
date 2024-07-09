@@ -41,7 +41,7 @@ export default function WorkspaceLayout({ children }: WorkspaceLayoutProps) {
     setFiles,
     setPresets,
     setPrompts,
-    setTools,
+    // setTools,
     setModels,
     selectedWorkspace,
     setSelectedWorkspace,
@@ -150,8 +150,8 @@ export default function WorkspaceLayout({ children }: WorkspaceLayoutProps) {
     const promptData = await getPromptWorkspacesByWorkspaceId(workspaceId)
     setPrompts(promptData.prompts)
 
-    const toolData = await getToolWorkspacesByWorkspaceId(workspaceId)
-    setTools(toolData.tools)
+    // const toolData = await getToolWorkspacesByWorkspaceId(workspaceId)
+    // setTools(toolData.tools)
 
     const modelData = await getModelWorkspacesByWorkspaceId(workspaceId)
     setModels(modelData.models)

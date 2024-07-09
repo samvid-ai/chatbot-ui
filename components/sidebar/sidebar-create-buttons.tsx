@@ -11,7 +11,7 @@ import { CreateFile } from "./items/files/create-file"
 import { CreateModel } from "./items/models/create-model"
 import { CreatePreset } from "./items/presets/create-preset"
 import { CreatePrompt } from "./items/prompts/create-prompt"
-import { CreateTool } from "./items/tools/create-tool"
+import { Createprofile } from "./items/tools/create-tool"
 
 interface SidebarCreateButtonsProps {
   contentType: ContentType
@@ -25,13 +25,12 @@ export const SidebarCreateButtons: FC<SidebarCreateButtonsProps> = ({
   const { profile, selectedWorkspace, folders, setFolders } =
     useContext(ChatbotUIContext)
   const { handleNewChat } = useChatHandler()
-
   const [isCreatingPrompt, setIsCreatingPrompt] = useState(false)
   const [isCreatingPreset, setIsCreatingPreset] = useState(false)
   const [isCreatingFile, setIsCreatingFile] = useState(false)
   const [isCreatingCollection, setIsCreatingCollection] = useState(false)
   const [isCreatingAssistant, setIsCreatingAssistant] = useState(false)
-  const [isCreatingTool, setIsCreatingTool] = useState(false)
+  const [isCreatingprofiles, setIsCreatingprofiles] = useState(false)
   const [isCreatingModel, setIsCreatingModel] = useState(false)
 
   const handleCreateFolder = async () => {
@@ -80,9 +79,9 @@ export const SidebarCreateButtons: FC<SidebarCreateButtonsProps> = ({
           setIsCreatingAssistant(true)
         }
 
-      case "tools":
+      case "profiles":
         return async () => {
-          setIsCreatingTool(true)
+          setIsCreatingprofiles(true)
         }
 
       case "models":
@@ -142,8 +141,11 @@ export const SidebarCreateButtons: FC<SidebarCreateButtonsProps> = ({
         />
       )}
 
-      {isCreatingTool && (
-        <CreateTool isOpen={isCreatingTool} onOpenChange={setIsCreatingTool} />
+      {isCreatingprofiles && (
+        <Createprofile
+          isOpen={isCreatingprofiles}
+          onOpenChange={setIsCreatingprofiles}
+        />
       )}
 
       {isCreatingModel && (

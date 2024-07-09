@@ -885,21 +885,21 @@ export type Database = {
           created_at: string
           model_id: string
           updated_at: string | null
-          user_id: string
+          user_id: string | null
           workspace_id: string
         }
         Insert: {
           created_at?: string
           model_id: string
           updated_at?: string | null
-          user_id: string
+          user_id?: string | null
           workspace_id: string
         }
         Update: {
           created_at?: string
           model_id?: string
           updated_at?: string | null
-          user_id?: string
+          user_id?: string | null
           workspace_id?: string
         }
         Relationships: [
@@ -939,7 +939,7 @@ export type Database = {
           name: string
           sharing: string
           updated_at: string | null
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           api_key: string
@@ -953,7 +953,7 @@ export type Database = {
           name: string
           sharing?: string
           updated_at?: string | null
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           api_key?: string
@@ -967,7 +967,7 @@ export type Database = {
           name?: string
           sharing?: string
           updated_at?: string | null
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -986,18 +986,21 @@ export type Database = {
           },
         ]
       }
-      organization: {
+      organizations: {
         Row: {
           created_at: string
           id: number
+          name: string
         }
         Insert: {
           created_at?: string
           id?: number
+          name?: string
         }
         Update: {
           created_at?: string
           id?: number
+          name?: string
         }
         Relationships: []
       }
@@ -1116,6 +1119,52 @@ export type Database = {
           },
         ]
       }
+      profile_workspaces: {
+        Row: {
+          created_at: string
+          profile_id: string
+          updated_at: string | null
+          user_id: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          profile_id?: string
+          updated_at?: string | null
+          user_id: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          profile_id?: string
+          updated_at?: string | null
+          user_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_workspaces_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profile_workspaces_user_id_fkey1"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profile_workspaces_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           anthropic_api_key: string | null
@@ -1125,27 +1174,30 @@ export type Database = {
           azure_openai_api_key: string | null
           azure_openai_embeddings_id: string | null
           azure_openai_endpoint: string | null
-          bio: string
+          bio: string | null
           created_at: string
-          display_name: string
+          display_name: string | null
+          folder_id: string | null
           google_gemini_api_key: string | null
           groq_api_key: string | null
           has_onboarded: boolean
           id: string
-          image_path: string
-          image_url: string
+          image_path: string | null
+          image_url: string | null
           mistral_api_key: string | null
+          name: string | null
           openai_api_key: string | null
           openai_organization_id: string | null
           openrouter_api_key: string | null
           organization: string | null
+          organization_id: number | null
           perplexity_api_key: string | null
-          profile_context: string
+          profile_context: string | null
           role: string | null
           updated_at: string | null
-          use_azure_openai: boolean
-          user_id: string
-          username: string
+          use_azure_openai: boolean | null
+          user_id: string | null
+          username: string | null
         }
         Insert: {
           anthropic_api_key?: string | null
@@ -1155,27 +1207,30 @@ export type Database = {
           azure_openai_api_key?: string | null
           azure_openai_embeddings_id?: string | null
           azure_openai_endpoint?: string | null
-          bio: string
+          bio?: string | null
           created_at?: string
-          display_name: string
+          display_name?: string | null
+          folder_id?: string | null
           google_gemini_api_key?: string | null
           groq_api_key?: string | null
           has_onboarded?: boolean
           id?: string
-          image_path: string
-          image_url: string
+          image_path?: string | null
+          image_url?: string | null
           mistral_api_key?: string | null
+          name?: string | null
           openai_api_key?: string | null
           openai_organization_id?: string | null
           openrouter_api_key?: string | null
           organization?: string | null
+          organization_id?: number | null
           perplexity_api_key?: string | null
-          profile_context: string
+          profile_context?: string | null
           role?: string | null
           updated_at?: string | null
-          use_azure_openai: boolean
-          user_id: string
-          username: string
+          use_azure_openai?: boolean | null
+          user_id?: string | null
+          username?: string | null
         }
         Update: {
           anthropic_api_key?: string | null
@@ -1185,29 +1240,46 @@ export type Database = {
           azure_openai_api_key?: string | null
           azure_openai_embeddings_id?: string | null
           azure_openai_endpoint?: string | null
-          bio?: string
+          bio?: string | null
           created_at?: string
-          display_name?: string
+          display_name?: string | null
+          folder_id?: string | null
           google_gemini_api_key?: string | null
           groq_api_key?: string | null
           has_onboarded?: boolean
           id?: string
-          image_path?: string
-          image_url?: string
+          image_path?: string | null
+          image_url?: string | null
           mistral_api_key?: string | null
+          name?: string | null
           openai_api_key?: string | null
           openai_organization_id?: string | null
           openrouter_api_key?: string | null
           organization?: string | null
+          organization_id?: number | null
           perplexity_api_key?: string | null
-          profile_context?: string
+          profile_context?: string | null
           role?: string | null
           updated_at?: string | null
-          use_azure_openai?: boolean
-          user_id?: string
-          username?: string
+          use_azure_openai?: boolean | null
+          user_id?: string | null
+          username?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "profiles_folder_id_fkey"
+            columns: ["folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profiles_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: true
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "profiles_user_id_fkey"
             columns: ["user_id"]
@@ -1311,51 +1383,23 @@ export type Database = {
           },
         ]
       }
-      tool_workspaces: {
+      roles: {
         Row: {
           created_at: string
-          tool_id: string
-          updated_at: string | null
-          user_id: string
-          workspace_id: string
+          id: number
+          name: string
         }
         Insert: {
           created_at?: string
-          tool_id: string
-          updated_at?: string | null
-          user_id: string
-          workspace_id: string
+          id?: number
+          name: string
         }
         Update: {
           created_at?: string
-          tool_id?: string
-          updated_at?: string | null
-          user_id?: string
-          workspace_id?: string
+          id?: number
+          name?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "tool_workspaces_tool_id_fkey"
-            columns: ["tool_id"]
-            isOneToOne: false
-            referencedRelation: "tools"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "tool_workspaces_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "tool_workspaces_workspace_id_fkey"
-            columns: ["workspace_id"]
-            isOneToOne: false
-            referencedRelation: "workspaces"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       tools: {
         Row: {
@@ -1411,6 +1455,42 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: number
+          role_id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          role_id: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          role_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "roles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_roles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
           },
         ]
       }

@@ -71,7 +71,7 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
 
         <SidebarSwitchItem
           icon={<IconBolt size={SIDEBAR_ICON_SIZE} />}
-          contentType="tools"
+          contentType="profiles"
           onContentTypeChange={onContentTypeChange}
         />
       </TabsList>

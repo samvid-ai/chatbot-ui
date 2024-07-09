@@ -60,7 +60,7 @@ export default async function Login({
     const password = formData.get("password") as string
     const cookieStore = cookies()
     const supabase = createClient(cookieStore)
-
+    // console.log(supabase)
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
@@ -138,6 +138,7 @@ export default async function Login({
 
     if (error) {
       console.error(error)
+      // console.log(supabase)
       return redirect(`/login?message=${error.message}`)
     }
 
@@ -165,31 +166,6 @@ export default async function Login({
 
     return redirect("/login?message=Check email to reset password")
   }
-
-  providers: [
-    // Credentials({
-    //   name: "Welcome Back",
-    //   type: "credentials",
-    //   credentials: {
-    //     email: {
-    //       label: "Email",
-    //       type: "email",
-    //       placeholder: "Enter your email",
-    //     },
-    //     password: { label: "Password", type: "password" },
-    //   },
-    //   async authorize(credentials, req) {
-    //     // * Connect to the MongoDb
-    //     connect();
-    //     const user = await UserModel.findOne({ email: credentials?.email });
-    //     if (user) {
-    //       return user;
-    //     } else {
-    //       return null;
-    //     }
-    //   },
-    // }),
-  ]
 
   return (
     <div className="flex w-full flex-1 flex-col justify-center gap-2 px-8 sm:max-w-md">

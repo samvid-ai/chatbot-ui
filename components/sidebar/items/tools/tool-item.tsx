@@ -1,40 +1,112 @@
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { TextareaAutosize } from "@/components/ui/textarea-autosize"
-import { TOOL_DESCRIPTION_MAX, TOOL_NAME_MAX } from "@/db/limits"
-import { validateOpenAPI } from "@/lib/openapi-conversion"
+import { TOOL_NAME_MAX } from "@/db/limits"
 import { Tables } from "@/supabase/types"
 import { IconBolt } from "@tabler/icons-react"
-import { FC, useState } from "react"
+import { FC, useContext, useState, useEffect } from "react"
 import { SidebarItem } from "../all/sidebar-display-item"
+import { ChatbotUIContext } from "@/context/context"
+import { supabase } from "@/lib/supabase/browser-client"
 
-interface ToolItemProps {
-  tool: Tables<"tools">
+interface CreateprofileProps {
+  profile: Tables<"profiles">
 }
 
-export const ToolItem: FC<ToolItemProps> = ({ tool }) => {
-  const [name, setName] = useState(tool.name)
+export const ProfileItem: FC<CreateprofileProps> = ({ profile }) => {
+  const { selectedWorkspace } = useContext(ChatbotUIContext)
+
+  // const [username, setUsername] = useState(profile?.username || "")
+  const [name, setName] = useState(profile?.name || "")
+
   const [isTyping, setIsTyping] = useState(false)
-  const [description, setDescription] = useState(tool.description)
-  const [url, setUrl] = useState(tool.url)
-  const [customHeaders, setCustomHeaders] = useState(
-    tool.custom_headers as string
-  )
-  const [schema, setSchema] = useState(tool.schema as string)
+  const [user_id, setuser_id] = useState("")
+  const [url, setUrl] = useState("")
+  const [customHeaders, setCustomHeaders] = useState("")
+  const [schema, setSchema] = useState("")
   const [schemaError, setSchemaError] = useState("")
+
+  const [role, setRole] = useState(profile?.role || "normal") // Default value
+  const [organization, setOrganization] = useState(profile?.organization) // Default value
+
+  const [roles, setRoles] = useState([]) // Initialize with empty array
+  const [organizations, setorganizations] = useState([]) // Initialize with empty array
+
+  const [loading, setLoading] = useState(true) // Loading state
+
+  useEffect(() => {
+    const fetchRoles = async () => {
+      // console.log("Fetching roles..."); // Debug log
+
+      const { data, error } = await supabase
+        .from("roles") // assuming you want roles from the 'roles' table
+        .select("*") // adjust the column names based on your table schema
+
+      if (error) {
+        // console.error("Error fetching user roles:", error);
+        setLoading(false)
+        return
+      }
+
+      if (data) {
+        // console.log("Roles fetched:", data); // Debug log
+        setRoles(data)
+        setLoading(false)
+      } else {
+        // console.log("No data found"); // Debug log
+        setLoading(false)
+      }
+    }
+
+    fetchRoles()
+  }, [])
+
+  useEffect(() => {
+    const fetchorganizations = async () => {
+      // console.log("Fetching organizations..."); // Debug log
+
+      const { data, error } = await supabase
+        .from("organizations") // assuming you want roles from the 'roles' table
+        .select("*") // adjust the column names based on your table schema
+
+      if (error) {
+        // console.error("Error fetching user organization:", error);
+        setLoading(false)
+        return
+      }
+
+      if (data) {
+        // console.log("organization fetched:", data); // Debug log
+        setorganizations(data)
+        setLoading(false)
+      } else {
+        // console.log("No data found"); // Debug log
+        setLoading(false)
+      }
+    }
+
+    fetchorganizations()
+  }, [])
+
+  const handleOrganizationChange = event => {
+    setOrganization(event.target.value)
+  }
+
+  const handleRoleChange = event => {
+    setRole(event.target.value)
+  }
+
+  if (!profile || !selectedWorkspace) return null
 
   return (
     <SidebarItem
-      item={tool}
+      item={profile}
       isTyping={isTyping}
-      contentType="tools"
+      contentType="profiles"
       icon={<IconBolt size={30} />}
       updateState={{
         name,
-        description,
-        url,
-        custom_headers: customHeaders,
-        schema
+        role,
+        organization
       }}
       renderInputs={() => (
         <>
@@ -42,7 +114,7 @@ export const ToolItem: FC<ToolItemProps> = ({ tool }) => {
             <Label>Name</Label>
 
             <Input
-              placeholder="Tool name..."
+              placeholder="User name..."
               value={name}
               onChange={e => setName(e.target.value)}
               maxLength={TOOL_NAME_MAX}
@@ -50,114 +122,51 @@ export const ToolItem: FC<ToolItemProps> = ({ tool }) => {
           </div>
 
           <div className="space-y-1">
-            <Label>Description</Label>
-
-            <Input
-              placeholder="Tool description..."
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-              maxLength={TOOL_DESCRIPTION_MAX}
-            />
-          </div>
-
-          {/* <div className="space-y-1">
-            <Label>URL</Label>
-
-            <Input
-              placeholder="Tool url..."
-              value={url}
-              onChange={e => setUrl(e.target.value)}
-            />
-          </div> */}
-
-          {/* <div className="space-y-3 pt-4 pb-3">
-            <div className="space-x-2 flex items-center">
-              <Checkbox />
-
-              <Label>Web Browsing</Label>
-            </div>
-
-            <div className="space-x-2 flex items-center">
-              <Checkbox />
-
-              <Label>Image Generation</Label>
-            </div>
-
-            <div className="space-x-2 flex items-center">
-              <Checkbox />
-
-              <Label>Code Interpreter</Label>
-            </div>
-          </div> */}
-
-          <div className="space-y-1">
-            <Label>Custom Headers</Label>
-
-            <TextareaAutosize
-              placeholder={`{"X-api-key": "1234567890"}`}
-              value={customHeaders}
-              onValueChange={setCustomHeaders}
-              minRows={1}
-            />
+            {loading ? (
+              <div>Loading roles...</div>
+            ) : roles.length > 0 ? (
+              <div className="space-y-1">
+                <label htmlFor="userRole">User Role</label>
+                <select
+                  id="userRole"
+                  value={role}
+                  onChange={handleRoleChange}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                >
+                  {roles.map(role => (
+                    <option key={role.id} value={role.id}>
+                      {role.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : (
+              <div>No roles available</div>
+            )}
           </div>
 
           <div className="space-y-1">
-            <Label>Schema</Label>
-
-            <TextareaAutosize
-              placeholder={`{
-                "openapi": "3.1.0",
-                "info": {
-                  "title": "Get weather data",
-                  "description": "Retrieves current weather data for a location.",
-                  "version": "v1.0.0"
-                },
-                "servers": [
-                  {
-                    "url": "https://weather.example.com"
-                  }
-                ],
-                "paths": {
-                  "/location": {
-                    "get": {
-                      "description": "Get temperature for a specific location",
-                      "operationId": "GetCurrentWeather",
-                      "parameters": [
-                        {
-                          "name": "location",
-                          "in": "query",
-                          "description": "The city and state to retrieve the weather for",
-                          "required": true,
-                          "schema": {
-                            "type": "string"
-                          }
-                        }
-                      ],
-                      "deprecated": false
-                    }
-                  }
-                },
-                "components": {
-                  "schemas": {}
-                }
-              }`}
-              value={schema}
-              onValueChange={value => {
-                setSchema(value)
-
-                try {
-                  const parsedSchema = JSON.parse(value)
-                  validateOpenAPI(parsedSchema)
-                    .then(() => setSchemaError("")) // Clear error if validation is successful
-                    .catch(error => setSchemaError(error.message)) // Set specific validation error message
-                } catch (error) {
-                  setSchemaError("Invalid JSON format") // Set error for invalid JSON format
-                }
-              }}
-              minRows={15}
-            />
-
-            <div className="text-xs text-red-500">{schemaError}</div>
+            {loading ? (
+              <div>Loading organization...</div>
+            ) : organizations.length > 0 ? (
+              <div className="space-y-1">
+                <label htmlFor="organization">User Role</label>
+                <select
+                  id="organization"
+                  value={organization}
+                  onChange={handleOrganizationChange}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                >
+                  {organizations.map(organization => (
+                    <option key={organization.id} value={organization.id}>
+                      {organization.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : (
+              <div>No organization available</div>
+            )}
           </div>
         </>
       )}

@@ -37,10 +37,7 @@ interface ChatbotUIContext {
   setModels: Dispatch<SetStateAction<Tables<"models">[]>>
   // tools: Tables<"tools">[]
   profile: Tables<"profiles">[]
-  // setProfiles: Dispatch<SetStateAction<Tables<"profiles">[]>>
-
-  profiles: Tables<"profiles">[]
-  setProfile: Dispatch<SetStateAction<Tables<"profiles">[]>>
+  setProfiles: Dispatch<SetStateAction<Tables<"profiles">[]>>
   // setTools: Dispatch<SetStateAction<Tables<"tools">[]>>
   workspaces: Tables<"workspaces">[]
   setWorkspaces: Dispatch<SetStateAction<Tables<"workspaces">[]>>
@@ -138,10 +135,10 @@ interface ChatbotUIContext {
   setSourceCount: Dispatch<SetStateAction<number>>
 
   // TOOL STORE
-  selectedProfiles: Tables<"profiles">[]
-  setSelectedProfiles: Dispatch<SetStateAction<Tables<"profiles">[]>>
-  profileInUse: string
-  setProfileInUse: Dispatch<SetStateAction<string>>
+  selectedTools: Tables<"tools">[]
+  setSelectedTools: Dispatch<SetStateAction<Tables<"tools">[]>>
+  toolInUse: string
+  setToolInUse: Dispatch<SetStateAction<string>>
 }
 
 export const ChatbotUIContext = createContext<ChatbotUIContext>({
@@ -266,8 +263,8 @@ export const ChatbotUIContext = createContext<ChatbotUIContext>({
   setSourceCount: () => {},
 
   // TOOL STORE
-  selectedProfiles: [],
-  setSelectedProfiles: () => {},
-  profileInUse: "none",
-  setProfileInUse: () => {}
+  selectedTools: [],
+  setSelectedTools: () => {},
+  toolInUse: "none",
+  setToolInUse: () => {}
 })
